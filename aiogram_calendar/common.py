@@ -7,37 +7,20 @@ from datetime import datetime
 from .schemas import CalendarLabels
 
 
-# async def get_user_locale(from_user: User) -> str:
-#     "Returns user locale in format en_US, accepts User instance from Message, CallbackData etc"
-#     loc = from_user.language_code
-
-#     user_locale = "ru_RU.utf8"
-
-#     # Проверяем, поддерживается ли локаль системой
-#     try:
-#         locale.setlocale(locale.LC_TIME, user_locale)
-#     except locale.Error:
-#         print(f"Локаль {user_locale} не поддерживается системой, используем 'en_US' по умолчанию.")
-#         user_locale = 'en_US'  # Используем резервную локаль, если первая не поддерживается
-
-#     return user_locale
-
 async def get_user_locale(from_user: User) -> str:
-    """Returns user locale in format en_US, accepts User instance from Message, CallbackData etc"""
+    "Returns user locale in format en_US, accepts User instance from Message, CallbackData etc"
     loc = from_user.language_code
-    
-    # Проверяем, существует ли язык в locale_alias
+
+    user_locale = "ru_RU.utf8"
+
+    # Проверяем, поддерживается ли локаль системой
     try:
-        # Если языковой код состоит из 2 букв (например, "ru"), добавляем _RU или другой суффикс
-        if len(loc) == 2:
-            loc = loc.lower() + "_" + loc.upper()
-        
-        # Проверяем, есть ли локаль в alias, если нет - возвращаем дефолтное значение
-        return loc
-    
-    except KeyError:
-        # Если произошла ошибка при поиске локали, возвращаем значение по умолчанию
-        return "en_US"
+        locale.setlocale(locale.LC_TIME, user_locale)
+    except locale.Error:
+        print(f"Локаль {user_locale} не поддерживается системой, используем 'en_US' по умолчанию.")
+        user_locale = 'en_US'  # Используем резервную локаль, если первая не поддерживается
+
+    return user_locale
 
 class GenericCalendar:
 
